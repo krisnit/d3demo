@@ -49,12 +49,27 @@ circles0.append('text')
         .attr('y',d=>y(d.height)+7)
         .attr('font-size',10)
 
-let gpa_data0= data0.map(a=>a.gpa)
-let height_data0= data0.map(a=>a.height)
-let gpa_data1= data1.map(a=>a.gpa)
-let height_data1= data1.map(a=>a.height)
+let gaugeData= {'data':80}
 
-let data = data0.map(a=>[a.gpa,a.height])
-console.log(data[0])
-// var gaugeData = {data: 75, x:80,y:45,g:56,f:34};	
+let chart = c3.generate({
+    bindto:'#chart1',
+    data:{
+        json:gaugeData,
+        type:'gauge',
+    },
+    gauge:{
+        label:{format: (value,ratio)=>value + '%'},
+        min:0,
+        max:100,
+        width:25,
+        // units:'%'
+    }
+})
 
+d3.interval(()=>{
+    let newValue = Math.floor(100*Math.random());
+    let newData = {'data':newValue};
+    chart.load({
+        json:newData
+    })
+}, 2000)
